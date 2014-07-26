@@ -7,24 +7,25 @@
 
 
 ## The makeCacheMatrix function creates a matrix object that can store its
-## inverse. It requires one input parameter x that is a square numeric matrix.
+## inverse. It requires one input parameter x that is a square numeric matrix
+## and it stores the inverse in matrix m.
 makeCacheMatrix <- function(x = matrix()) {
 	# Initialize the inverse matrix m to NULL.
 	m <- NULL
-	# Set the matrix x to input y and intiailize the inverse matrix m.
+	# Reset the matrix x to input y and intiailize the inverse matrix m.
 	set <- function(y) {
 		x <<- y
 		m <<- NULL
 	}
-	# Retrieve the original input matrix x to check what is stored.
+	# Retrieve the original input matrix x to check what is stored as input.
 	get <- function() x
-	# Calculate the inverse of the stored matrix x and save that to matrix m.
-	setinverse <- function(solve) m <<- solve
+	# Set m to the inverse (also the input of the function) of the stored matrix x.
+	setinverse <- function(inverse) m <<- inverse
 	# Retrieve the cached inverse matrix m.
 	getinverse <- function() m
 	# Save these action items to a list.
 	list(set=set, get=get, setinverse=setinverse, getinverse=getinverse) 
-# This function returns a list of action calls that are defined here.
+# This function returns a list of action calls that are defined above.
 }
 
 
@@ -41,7 +42,7 @@ cacheSolve <- function(x, ...) {
         }
         # If m is NULL, then set the data matrix to the stored original input x.
         data <- x$get()
-        # Solve for the inverse of x and store it in matrix m.
+        # Solve for the inverse of x (now data) and store it in matrix m.
         m <- solve(data, ...)
         # Save this solution to cache, so that you do not need to repeat it.
         x$setinverse(m)
